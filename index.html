@@ -1,79 +1,9 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>GeoAR Debugger</title>
-    
-    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-    <script>eruda.init();</script>
-
-    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
-    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
-</head>
-
-<body style="margin: 0; overflow: hidden;">
-    <div id="status" style="position: fixed; top: 10px; left: 10px; z-index: 10; color: white; background: rgba(0,0,0,0.5); padding: 10px; font-family: sans-serif; font-size: 12px;">
-        กำลังเริ่มต้นระบบ...
-    </div>
-
-    <a-scene 
-        embedded 
-        arjs="sourceType: webcam; debugUIEnabled: false;" 
-        vr-mode-ui="enabled: false">
-        
-        <a-box position="0 1.6 -5" material="color: red;" scale="0.5 0.5 0.5"></a-box>
-
-        <a-camera 
-            gps-camera="simulateLatitude: 15.3625; simulateLongitude: 100.0143;" 
-            rotation-reader>
-        </a-camera>
-    </a-scene>
-
+<body>
+    <h1 style="color: red;">ถ้าเห็นข้อความนี้ แสดงว่าไฟล์ HTML ทำงานแล้ว</h1>
     <script>
-        const statusEl = document.getElementById('status');
-        const scene = document.querySelector('a-scene');
-        
-        // ระบุชื่อไฟล์ GeoJSON (ตรวจสอบตัวสะกดให้ตรงกับในเครื่อง)
-        const dataSource = "roads_ar_points_อำเภอเมืองอุทัยธานี.geojson";
-
-        console.log("เริ่มโหลดข้อมูลจาก:", dataSource);
-        statusEl.innerText = "กำลังโหลดไฟล์: " + dataSource;
-
-        fetch(dataSource)
-            .then(response => {
-                if (!response.ok) throw new Error("หาไฟล์ไม่เจอ (404)");
-                return response.json();
-            })
-            .then(data => {
-                console.log("โหลด GeoJSON สำเร็จ:", data.features.length, "จุด");
-                statusEl.innerText = `พบข้อมูล ${data.features.length} จุด (กำลังเรนเดอร์)`;
-
-                data.features.forEach((feature, index) => {
-                    const [lon, lat] = feature.geometry.coordinates;
-                    const roadName = feature.properties.road_name || "Point " + index;
-
-                    // สร้างป้ายข้อความ
-                    const text = document.createElement('a-text');
-                    text.setAttribute('gps-entity-place', `latitude: ${lat}; longitude: ${lon};`);
-                    text.setAttribute('value', roadName);
-                    text.setAttribute('scale', '15 15 15');
-                    text.setAttribute('look-at', '[gps-camera]');
-                    text.setAttribute('align', 'center');
-                    text.setAttribute('color', 'yellow');
-
-                    scene.appendChild(text);
-                });
-                
-                statusEl.style.backgroundColor = "rgba(0, 128, 0, 0.5)";
-                statusEl.innerText = "ระบบ AR พร้อมใช้งาน (ข้อมูลโหลดครบแล้ว)";
-            })
-            .catch(error => {
-                console.error("เกิดข้อผิดพลาด:", error);
-                statusEl.style.backgroundColor = "rgba(255, 0, 0, 0.5)";
-                statusEl.innerText = "Error: " + error.message;
-            });
+        alert("JavaScript ก็ทำงานปกติครับ");
     </script>
 </body>
 </html>
